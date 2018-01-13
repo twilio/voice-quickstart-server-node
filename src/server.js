@@ -52,6 +52,25 @@ function makeCall(to) {
   return response.toString();
 }
 
+function placeCall(to, request) {
+  callerId = 'client:quick_start'
+  var url = request.protocol + '://' + request.get('host') + '/incomingCall';
+  console.log(url)
+  const accountSid = process.env.ACCOUNT_SID;
+  const apiKey = process.env.API_KEY;
+  const apiSecret = process.env.API_KEY_SECRET;
+  const client = require('twilio')(apiKey, apiSecret, { accountSid: accountSid } );
+
+  call = client.api.calls.create({
+    url: url,
+    to: 'client:' + to,
+    from: callerId,
+  })
+  .then((call) => console.log(call.sid));
+
+  return call.sid;
+}
+
 function incomingCall() {
   const response = new VoiceResponse();
   response.say("Congratulations! You have received your first inbound call! Good bye.");
@@ -61,4 +80,5 @@ function incomingCall() {
 
 exports.tokenGenerator = tokenGenerator;
 exports.makeCall = makeCall;
+exports.placeCall = placeCall;
 exports.incomingCall = incomingCall;
