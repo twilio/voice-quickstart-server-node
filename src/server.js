@@ -8,6 +8,12 @@ const callerId = 'client:quick_start';
 // Use a valid Twilio number by adding to your account via https://www.twilio.com/console/phone-numbers/verified
 const callerNumber = '1234567890';
 
+/**
+ * Creates an access token with VoiceGrant using your Twilio credentials.
+ *
+ * @param {string} identity - The identity
+ * @returns {string} - The Access Token string
+ */
 function tokenGenerator(identity) {
   // Used when generating any kind of tokens
   const accountSid = process.env.ACCOUNT_SID;
@@ -33,6 +39,17 @@ function tokenGenerator(identity) {
   return token.toJwt();
 }
 
+/**
+ * Creates an endpoint that can be used in your TwiML App as the Voice Request Url.
+ * <br><br>
+ * In order to make outgoing call using Twilio Voice SDK, you need to provide a
+ * TwiML App SID in the Access Token. You can run your server, make it publicly
+ * accessible and use `/makeCall` endpoint as the Voice Request Url in your TwiML App.
+ * <br><br>
+ *
+ * @param {string} to - The recipient of the call, a phone number or a client
+ * @returns {string} - The TwiMl used to respond to an outgoing call
+ */
 function makeCall(to) {
   const phoneNumberChars = '+1234567890';
   const response = new VoiceResponse();
@@ -48,8 +65,14 @@ function makeCall(to) {
   return response.toString();
 }
 
+/**
+ * Makes an outgoing call using Twilio REST API.
+ *
+ * @param {string} to - The recipient of the call, a client
+ * @returns {string} - The CallSid
+ */
 function placeCall(to, request) {
-
+  // The fully qualified URL that should be consulted by Twilio when the call connects.
   var url = request.protocol + '://' + request.get('host') + '/incomingCall';
   const accountSid = process.env.ACCOUNT_SID;
   const apiKey = process.env.API_KEY;
@@ -66,6 +89,9 @@ function placeCall(to, request) {
   return call.sid;
 }
 
+/**
+ * Creates an endpoint that Says a greeting. 
+ */
 function incomingCall() {
   const response = new VoiceResponse();
   response.say("Congratulations! You have received your first inbound call! Good bye.");
