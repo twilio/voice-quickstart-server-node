@@ -3,6 +3,10 @@ require('dotenv').load();
 const AccessToken = require('twilio').jwt.AccessToken;
 const VoiceGrant = AccessToken.VoiceGrant;
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
+const identity = 'alice';
+const callerId = 'client:quick_start';
+// Use a valid Twilio number by adding to your account via https://www.twilio.com/console/phone-numbers/verified
+const callerNumber = '1234567890';
 
 function tokenGenerator(identity) {
   // Used when generating any kind of tokens
@@ -26,36 +30,27 @@ function tokenGenerator(identity) {
   const token = new AccessToken(accountSid, apiKey, apiSecret);
   token.addGrant(voiceGrant);
   token.identity = identity;
-
-  // Serialize the token to a JWT string
   return token.toJwt();
 }
 
 function makeCall(to) {
-  // Use a valid Twilio number by adding to your account via https://www.twilio.com/console/phone-numbers/verified
-  defaultCallerId = "1234567890";
-  callerId = 'client:quick_start'
-  identity = `alice`
-  phoneNumberChars = "+1234567890";
+  const phoneNumberChars = '+1234567890';
   const response = new VoiceResponse();
   const dial = response.dial();
 
   if (!to) {
       response.say("Congratulations! You have made your first call! Good bye.");
   } else if (phoneNumberChars.indexOf(to[0]) != -1) {
-      dial.number({callerId : defaultCallerId}, to);
+      dial.number({callerId : callerNumber}, to);
   } else {
       dial.client({callerId : callerId}, to);
   }
-
-  // Serialize the twiml to string
   return response.toString();
 }
 
 function placeCall(to, request) {
-  callerId = 'client:quick_start'
+
   var url = request.protocol + '://' + request.get('host') + '/incomingCall';
-  console.log(url)
   const accountSid = process.env.ACCOUNT_SID;
   const apiKey = process.env.API_KEY;
   const apiSecret = process.env.API_KEY_SECRET;
@@ -74,7 +69,6 @@ function placeCall(to, request) {
 function incomingCall() {
   const response = new VoiceResponse();
   response.say("Congratulations! You have received your first inbound call! Good bye.");
-  // Serialize the twiml to string
   return response.toString();
 }
 
