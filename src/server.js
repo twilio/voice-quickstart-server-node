@@ -42,7 +42,7 @@ function tokenGenerator(identity) {
 /**
  * Creates an endpoint that can be used in your TwiML App as the Voice Request Url.
  * <br><br>
- * In order to make outgoing call using Twilio Voice SDK, you need to provide a
+ * In order to make an outgoing call using Twilio Voice SDK, you need to provide a
  * TwiML App SID in the Access Token. You can run your server, make it publicly
  * accessible and use `/makeCall` endpoint as the Voice Request Url in your TwiML App.
  * <br><br>
@@ -66,9 +66,9 @@ function makeCall(to) {
 }
 
 /**
- * Makes an outgoing call using Twilio REST API.
+ * Makes a call to the specified client using the Twilio REST API.
  *
- * @param {string} to - The recipient of the call, a client
+ * @param {string} to - The recipient of the call, a client.
  * @returns {string} - The CallSid
  */
 function placeCall(to, request) {
@@ -90,7 +90,7 @@ function placeCall(to, request) {
 }
 
 /**
- * Creates an endpoint that Says a greeting. 
+ * Creates an endpoint that plays back a greeting.
  */
 function incomingCall() {
   const response = new VoiceResponse();
