@@ -13,8 +13,6 @@ var twilio = require('twilio');
 // Create Express webapp
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.get('/accessToken', function(request, response) {
   const identity = request.query.identity || 'identity';
   response.send(tokenGenerator(identity));
