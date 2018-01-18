@@ -42,7 +42,7 @@ node .
 ```
 
 To generate Access Token, visit
-[http://localhost:3000?identity=alice](http://localhost:3000?identity=alice).
+[http://localhost:3000/accessToken?identity=alice](http://localhost:3000/accessToken?identity=alice).
 
 ### Up and running
 
