@@ -53,13 +53,14 @@ function tokenGenerator(identity) {
 function makeCall(to) {
   const phoneNumberChars = '+1234567890';
   const response = new VoiceResponse();
-  const dial = response.dial();
 
   if (!to) {
       response.say("Congratulations! You have made your first call! Good bye.");
   } else if (phoneNumberChars.indexOf(to[0]) != -1) {
+      const dial = response.dial();
       dial.number({callerId : callerNumber}, to);
   } else {
+      const dial = response.dial();
       dial.client({callerId : callerId}, to);
   }
   return response.toString();
