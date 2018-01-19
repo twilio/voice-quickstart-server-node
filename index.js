@@ -19,13 +19,11 @@ app.get('/accessToken', function(request, response) {
 });
 
 app.get('/makeCall', function(request, response) {
-  const to = request.query.to;
-  response.send(makeCall(to));
+  makeCall(request, response);
 });
 
 app.post('/makeCall', function(request, response) {
-  const to = request.query.to;
-  response.send(makeCall(to));
+  makeCall(request, response);
 });
 
 app.get('/placeCall', function(request, response) {

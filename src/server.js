@@ -47,23 +47,26 @@ function tokenGenerator(identity) {
  * accessible and use `/makeCall` endpoint as the Voice Request Url in your TwiML App.
  * <br><br>
  *
- * @param {string} to - The recipient of the call, a phone number or a client
- * @returns {string} - The TwiMl used to respond to an outgoing call
+ * @param {Object} request - POST or GET request that provides the recipient of the call, a phone number or a client
+ * @param {Object} response - The Response Object for the http request
+ * @returns {Object} - The Response Object with TwiMl, used to respond to an outgoing call
  */
-function makeCall(to) {
+function makeCall(request, response) {
+  // The recipient of the call, a phone number or a client
+  const to = request.query.to;
   const phoneNumberChars = '+1234567890';
-  const response = new VoiceResponse();
+  const voiceResponse = new VoiceResponse();
 
   if (!to) {
-      response.say("Congratulations! You have made your first call! Good bye.");
+      voiceResponse.say("Congratulations! You have made your first call! Good bye.");
   } else if (phoneNumberChars.indexOf(to[0]) != -1) {
-      const dial = response.dial();
+      const dial = voiceResponse.dial();
       dial.number({callerId : callerNumber}, to);
   } else {
-      const dial = response.dial();
+      const dial = voiceResponse.dial();
       dial.client({callerId : callerId}, to);
   }
-  return response.toString();
+  return response.send(voiceResponse.toString());
 }
 
 /**
