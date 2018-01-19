@@ -32,7 +32,6 @@ app.get('/placeCall', function(request, response) {
 });
 
 app.post('/incomingCall', function(request, response) {
-  const to = request.query.to;
   response.send(incomingCall());
 });
 
