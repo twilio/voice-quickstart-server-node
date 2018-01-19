@@ -23,6 +23,11 @@ app.get('/makeCall', function(request, response) {
   response.send(makeCall(to));
 });
 
+app.post('/makeCall', function(request, response) {
+  const to = request.query.to;
+  response.send(makeCall(to));
+});
+
 app.get('/placeCall', function(request, response) {
   const to = request.query.to;
   response.send(placeCall(to, request));
