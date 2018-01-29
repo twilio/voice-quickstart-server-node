@@ -55,7 +55,7 @@ You should see a dynamically generated public Ngrok URL in the command window. N
 
 ### Test the app
 
-Test your app by opening the `{NGROK_SERVER_URL}/accessToken` endpoint in your browser. Use the publicly accessible domain on ngrok. You should see a long string. This is an Access Token. You can examine its contents by pasting it into a JWT tool like [jwt.io](http://jwt.io).
+Test your app by opening the `{YOUR_SERVER_URL}/accessToken` endpoint in your browser. Use the publicly accessible domain on ngrok. You should see a long string. This is an Access Token. You can examine its contents by pasting it into a JWT tool like [jwt.io](http://jwt.io).
 
 ## License
 
