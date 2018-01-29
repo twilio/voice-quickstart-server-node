@@ -3,19 +3,26 @@ require('dotenv').load();
 const http = require('http');
 const path = require('path');
 const express = require('express');
-var methods = require('./src/server.js');
+const bodyParser = require('body-parser')
+const methods = require('./src/server.js');
 const tokenGenerator = methods.tokenGenerator;
 const makeCall = methods.makeCall;
 const placeCall = methods.placeCall;
-const incomingCall = methods.incomingCall;
+const incoming = methods.incoming;
 var twilio = require('twilio');
 
 // Create Express webapp
 const app = express();
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
 app.get('/accessToken', function(request, response) {
-  const identity = request.query.identity || 'identity';
-  response.send(tokenGenerator(identity));
+  tokenGenerator(request, response);
+});
+
+app.post('/accessToken', function(request, response) {
+  tokenGenerator(request, response);
 });
 
 app.get('/makeCall', function(request, response) {
@@ -27,12 +34,19 @@ app.post('/makeCall', function(request, response) {
 });
 
 app.get('/placeCall', function(request, response) {
-  const to = request.query.to;
-  response.send(placeCall(to, request));
+  placeCall(request, response);
 });
 
-app.post('/incomingCall', function(request, response) {
-  response.send(incomingCall());
+app.post('/placeCall', function(request, response) {
+  placeCall(request, response);
+});
+
+app.get('/incoming', function(request, response) {
+  response.send(incoming());
+});
+
+app.post('/incoming', function(request, response) {
+  response.send(incoming());
 });
 
 // Create an http server and run it
