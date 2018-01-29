@@ -9,6 +9,7 @@ const tokenGenerator = methods.tokenGenerator;
 const makeCall = methods.makeCall;
 const placeCall = methods.placeCall;
 const incoming = methods.incoming;
+const welcome = methods.welcome;
 var twilio = require('twilio');
 
 // Create Express webapp
@@ -16,6 +17,14 @@ const app = express();
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
+
+app.get('/', function(request, response) {
+  response.send(welcome());
+});
+
+app.post('/', function(request, response) {
+  response.send(welcome());
+});
 
 app.get('/accessToken', function(request, response) {
   tokenGenerator(request, response);

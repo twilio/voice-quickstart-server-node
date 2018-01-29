@@ -44,7 +44,6 @@ node .
 Visit [http://localhost:3000](http://localhost:3000) to ensure the server is running.
 
 ### Up and running
----
 
 This web application needs to be accessbile on the public internet in order to receive webhook requests from Twilio. [Ngrok](https://ngrok.com/) is a great options for getting this done quickly.
 

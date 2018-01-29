@@ -7,7 +7,7 @@ const defaultIdentity = 'alice';
 const callerId = 'client:quick_start';
 const phoneNumberChars = '+1234567890';
 // Use a valid Twilio number by adding to your account via https://www.twilio.com/console/phone-numbers/verified
-const callerNumber = '1234567890';
+const callerNumber = '2525445359';//'1234567890';
 
 /**
  * Creates an access token with VoiceGrant using your Twilio credentials.
@@ -115,8 +115,13 @@ function placeCall(request, response) {
   const client = require('twilio')(apiKey, apiSecret, { accountSid: accountSid } );
 
   if (!to) {
-    console.log("to is null.");
-    return response.sendStatus(400);
+    console.log("Calling client:" + defaultIdentity);
+    call = client.api.calls.create({
+      url: url,
+      to: 'client:' + defaultIdentity,
+      from: callerId,
+    })
+    .then((call) => console.log(call.sid));
   } else if (phoneNumberChars.indexOf(to[0]) != -1) {
     console.log("Calling number:" + to);
     call = client.api.calls.create({
@@ -148,7 +153,15 @@ function incoming() {
   return voiceResponse.toString();
 }
 
+function welcome() {
+  const voiceResponse = new VoiceResponse();
+  voiceResponse.say("Welcome to Twilio");
+  console.log('Response:' + voiceResponse.toString());
+  return voiceResponse.toString();
+}
+
 exports.tokenGenerator = tokenGenerator;
 exports.makeCall = makeCall;
 exports.placeCall = placeCall;
 exports.incoming = incoming;
+exports.welcome = welcome;
