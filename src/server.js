@@ -5,9 +5,8 @@ const VoiceGrant = AccessToken.VoiceGrant;
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 const defaultIdentity = 'alice';
 const callerId = 'client:quick_start';
-const phoneNumberChars = '+1234567890';
 // Use a valid Twilio number by adding to your account via https://www.twilio.com/console/phone-numbers/verified
-const callerNumber = '2525445359';//'1234567890';
+const callerNumber = '1234567890';
 
 /**
  * Creates an access token with VoiceGrant using your Twilio credentials.
@@ -79,7 +78,7 @@ function makeCall(request, response) {
 
   if (!to) {
       voiceResponse.say("Congratulations! You have made your first call! Good bye.");
-  } else if (phoneNumberChars.indexOf(to[0]) != -1) {
+  } else if (!isNaN(to)) {
       const dial = voiceResponse.dial();
       dial.number({callerId : callerNumber}, to);
   } else {
@@ -115,14 +114,14 @@ function placeCall(request, response) {
   const client = require('twilio')(apiKey, apiSecret, { accountSid: accountSid } );
 
   if (!to) {
-    console.log("Calling client:" + defaultIdentity);
+    console.log("Calling default client:" + defaultIdentity);
     call = client.api.calls.create({
       url: url,
       to: 'client:' + defaultIdentity,
       from: callerId,
     })
     .then((call) => console.log(call.sid));
-  } else if (phoneNumberChars.indexOf(to[0]) != -1) {
+  } else if (!isNaN(to)) {
     console.log("Calling number:" + to);
     call = client.api.calls.create({
       url: url,
