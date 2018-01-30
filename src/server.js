@@ -78,7 +78,7 @@ function makeCall(request, response) {
 
   if (!to) {
       voiceResponse.say("Congratulations! You have made your first call! Good bye.");
-  } else if (!isNaN(to)) {
+  } else if (isNumber(to)) {
       const dial = voiceResponse.dial();
       dial.number({callerId : callerNumber}, to);
   } else {
@@ -112,7 +112,6 @@ async function placeCall(request, response) {
   const apiKey = process.env.API_KEY;
   const apiSecret = process.env.API_KEY_SECRET;
   const client = require('twilio')(apiKey, apiSecret, { accountSid: accountSid } );
-  var ret;
 
   if (!to) {
     console.log("Calling default client:" + defaultIdentity);
@@ -121,7 +120,7 @@ async function placeCall(request, response) {
       to: 'client:' + defaultIdentity,
       from: callerId,
     });
-  } else if (!isNaN(to)) {
+  } else if (isNumber(to)) {
     console.log("Calling number:" + to);
     call = await client.api.calls.create({
       url: url,
@@ -130,7 +129,7 @@ async function placeCall(request, response) {
     });
   } else {
     console.log("Calling client:" + to);
-    call =  client.api.calls.create({
+    call =  await client.api.calls.create({
       url: url,
       to: 'client:' + to,
       from: callerId,
@@ -156,6 +155,23 @@ function welcome() {
   voiceResponse.say("Welcome to Twilio");
   console.log('Response:' + voiceResponse.toString());
   return voiceResponse.toString();
+}
+
+function isNumber(to) {
+  if(String(to).charAt(0) == '+') {
+    number = to.substring(1);
+    if(!isNaN(number)) {
+      console.log("It is a number " + to);
+      return true;
+    };
+  } else {
+    if(!isNaN(to)) {
+      console.log("It is a number " + to);
+      return true;
+    }
+  }
+  console.log("not a number");
+  return false;
 }
 
 exports.tokenGenerator = tokenGenerator;
