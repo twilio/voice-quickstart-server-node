@@ -42,13 +42,9 @@ app.post('/makeCall', function(request, response) {
   makeCall(request, response);
 });
 
-app.get('/placeCall', function(request, response) {
-  placeCall(request, response);
-});
+app.get('/placeCall', placeCall);
 
-app.post('/placeCall', function(request, response) {
-  placeCall(request, response);
-});
+app.post('/placeCall', placeCall);
 
 app.get('/incoming', function(request, response) {
   response.send(incoming());

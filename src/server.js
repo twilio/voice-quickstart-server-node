@@ -96,7 +96,7 @@ function makeCall(request, response) {
  * @param {Object} response - The Response Object for the http request
  * @returns {string} - The CallSid
  */
-function placeCall(request, response) {
+async function placeCall(request, response) {
   // The recipient of the call, a phone number or a client
   var to = null;
   if (request.method == 'POST') {
@@ -112,33 +112,32 @@ function placeCall(request, response) {
   const apiKey = process.env.API_KEY;
   const apiSecret = process.env.API_KEY_SECRET;
   const client = require('twilio')(apiKey, apiSecret, { accountSid: accountSid } );
+  var ret;
 
   if (!to) {
     console.log("Calling default client:" + defaultIdentity);
-    call = client.api.calls.create({
+    call = await client.api.calls.create({
       url: url,
       to: 'client:' + defaultIdentity,
       from: callerId,
-    })
-    .then((call) => console.log(call.sid));
+    });
   } else if (!isNaN(to)) {
     console.log("Calling number:" + to);
-    call = client.api.calls.create({
+    call = await client.api.calls.create({
       url: url,
       to: to,
       from: callerNumber,
-    })
-    .then((call) => console.log(call.sid));
+    });
   } else {
     console.log("Calling client:" + to);
-    call = client.api.calls.create({
+    call =  client.api.calls.create({
       url: url,
       to: 'client:' + to,
       from: callerId,
-    })
-    .then((call) => console.log(call.sid));
+    });
   }
-
+  console.log(call.sid)
+  //call.then(console.log(call.sid));
   return response.send(call.sid);
 }
 
