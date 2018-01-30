@@ -49,7 +49,9 @@ This web application needs to be accessbile on the public internet in order to r
 
 Once you have the application running locally, in a separate terminal window, make your server available to the public internet with the following:
 
+```bash
     ngrok http 3000
+```
 
 You should see a dynamically generated public Ngrok URL in the command window. Ngrok will now tunnel all HTTP traffic directed at this URL to your local machine at port 3000.
 
