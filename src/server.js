@@ -158,7 +158,12 @@ function welcome() {
 }
 
 function isNumber(to) {
-  if(String(to).charAt(0) == '+') {
+  if(to.length == 1) {
+    if(!isNaN(to)) {
+      console.log("It is a 1 digit long number" + to);
+      return true;
+    }
+  } else if(String(to).charAt(0) == '+') {
     number = to.substring(1);
     if(!isNaN(number)) {
       console.log("It is a number " + to);
