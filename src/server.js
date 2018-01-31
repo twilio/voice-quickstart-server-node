@@ -79,11 +79,11 @@ function makeCall(request, response) {
   if (!to) {
       voiceResponse.say("Congratulations! You have made your first call! Good bye.");
   } else if (isNumber(to)) {
-      const dial = voiceResponse.dial();
-      dial.number({callerId : callerNumber}, to);
+      const dial = voiceResponse.dial({callerId : callerNumber});
+      dial.number(to);
   } else {
-      const dial = voiceResponse.dial();
-      dial.client({callerId : callerId}, to);
+      const dial = voiceResponse.dial({callerId : callerId});
+      dial.client(to);
   }
   console.log('Response:' + voiceResponse.toString());
   return response.send(voiceResponse.toString());
